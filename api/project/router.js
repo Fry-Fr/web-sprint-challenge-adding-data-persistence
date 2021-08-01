@@ -19,7 +19,16 @@ router.post('/', (req, res, next) => {
 router.get('/', (req, res, next) => {
     Model.getProjects()
         .then(projects => {
-            res.json(projects)
+            const projList = projects.map(proj => {
+                if (proj.project_completed === 0) {
+                    proj.project_completed = false;
+                    return proj
+                }else {
+                    proj.project_completed = true;
+                    return proj;
+                }
+            })
+            res.json(projList)
         })
         .catch(err => next(err))
 });
