@@ -19,7 +19,17 @@ router.post('/', (req, res, next) => {
 router.get('/', (req, res, next) => {
     Model.getTasks()
         .then(tasks => {
-            res.json(tasks)
+            const taskList = tasks.map(task => {
+                if (task.task_completed === 0) {
+                    task.task_completed = false;
+                    return task;
+                }else {
+                    task.task_completed = true;
+                    return task;
+                }
+            })
+
+            res.json(taskList);
         })
         .catch(err => next(err))
 });
