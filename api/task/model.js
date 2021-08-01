@@ -11,5 +11,7 @@ async function createTask(post) {
 }
 
 function getTasks() {
-    return db('tasks');
+    return db('tasks')
+    .leftJoin('projects', 'tasks.project_id', 'projects.project_id')
+    .select('task_id', 'task_description', 'task_notes', 'task_completed', 'projects.project_name', 'projects.project_description');
 }
